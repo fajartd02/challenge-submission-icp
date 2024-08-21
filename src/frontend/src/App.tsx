@@ -1,25 +1,15 @@
 import { useState } from 'react';
 
 function App() {
-  const [greeting, setGreeting] = useState('');
   const [catFact, setCatFact] = useState('');
-
-  function handleSubmit(event: any) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    fetch(`${import.meta.env.VITE_CANISTER_URL}/greet?name=${name}`)
-      .then(response => response.json()).then((json) => {
-        setGreeting(json.greeting)
-      });
-  }
-
   function handleCat(event: any) {
     event.preventDefault();
-    fetch(`${import.meta.env.VITE_CANISTER_URL}/custom-cat-facts`)
+    fetch(`${import.meta.env.VITE_CANISTER_URL}/custom-cat-facts`, { method: "POST"})
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      console.log(response);
       return response.json();
     })
     .then((json) => {
@@ -34,17 +24,9 @@ function App() {
   return (
     <main>
       <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-
       <br/><br/>
       <h1>Custom Frontend Challenge 1 & 2</h1>
+      <p>Wait it 30s - 5 minutes after click. its on query....</p>
       <form onSubmit={handleCat}>
         <button type="submit">Click for cat fact!</button>
       </form>

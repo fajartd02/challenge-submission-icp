@@ -35,7 +35,7 @@ export default Server(
         });
 
         // this is the challenge 1 & 2
-        app.get("/custom-cat-facts", async (req, res) => {
+        app.post("/custom-cat-facts", async (req, res) => {
             ic.setOutgoingHttpOptions({
                 maxResponseBytes: 20_000n,
                 cycles: 500_000_000_000n, // HTTP outcalls cost cycles. Unused cycles are returned.
