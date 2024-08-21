@@ -16,8 +16,18 @@ function App() {
   function handleCat(event: any) {
     event.preventDefault();
     fetch(`${import.meta.env.VITE_CANISTER_URL}/custom-cat-facts`)
-    .then(response => response.json()).then((json) => {
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((json) => {
       setCatFact(json.fact)
+    })
+    .catch((error) => {
+      console.error("Error fetching cat fact:", error);
+      setCatFact("Error fetching cat fact. Please try again later.");
     });
   }
 
