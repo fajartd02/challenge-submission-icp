@@ -34,6 +34,18 @@ export default Server(
             res.json({ greeting: `Hello, ${req.query.name}` });
         });
 
+        // this is the challenge 1 & 2
+        app.get("/custom-cat-facts", async (req, res) => {
+            ic.setOutgoingHttpOptions({
+                maxResponseBytes: 20_000n,
+                cycles: 500_000_000_000n, // HTTP outcalls cost cycles. Unused cycles are returned.
+                transformMethodName: 'transform'
+            });
+
+            const response = await (await fetch(`https://catfact.ninja/fact`)).json();
+            res.json(response);
+        });
+
         app.post('/price-oracle', async (req, res) => {
             ic.setOutgoingHttpOptions({
                 maxResponseBytes: 20_000n,
